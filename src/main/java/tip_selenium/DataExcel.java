@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class DataExcel {
+	
+	String workspace = System.getProperty("user.dir");
 
 
 	public void display(WebDriver driver) throws IOException {
@@ -85,7 +87,7 @@ public class DataExcel {
 		XSSFCell SixthSecondCell = SixthRow.createCell(1);
 		SixthSecondCell.setCellValue(price.get(8).getText());
 
-		FileOutputStream writeFile = new FileOutputStream("Mini_Project.xlsx");
+		FileOutputStream writeFile = new FileOutputStream(workspace+"\\output\\Mini_Project.xlsx");
 		workbook.write(writeFile);
 
 	}

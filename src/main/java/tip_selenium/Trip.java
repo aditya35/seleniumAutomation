@@ -10,6 +10,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.concurrent.TimeUnit;
 
 public class Trip {
@@ -21,6 +25,7 @@ public class Trip {
 	XSSFCell cell;
 	String sr;
 	String dc;
+	String workspace = System.getProperty("user.dir");
 
 	public static void main(String[] args) {
 		Trip obj = new Trip();
@@ -30,7 +35,7 @@ public class Trip {
 		try {
 			obj.getData();
 		} catch (Exception e) {
-			System.out.println("Exception handled");
+			e.printStackTrace();
 		}
 		obj.travelDetails();
 		obj.sortingResult();
@@ -47,8 +52,6 @@ public class Trip {
 
 	//Access the website
 	public void websiteAccess() {
-
-
 		driver.navigate().to("https://www.easemytrip.com/");
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -60,7 +63,7 @@ public class Trip {
 	public void getData() throws IOException {
 
 		//Set the location of the excel file
-		File src = new File("C:\\Users\\870653\\Documents\\tripexcel.xlsx");
+		File src = new File(workspace+"\\inputdata\\tripexcel.xlsx");
 
 		// Load the file.
 		FileInputStream finput = new FileInputStream(src);
@@ -80,6 +83,10 @@ public class Trip {
 		cell = sheet.getRow(1).getCell(1);
 		dc = cell.getStringCellValue();
 	}
+	
+	public LocalDate nextFriday() {
+		 return LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+	}
 
 	public void travelDetails() {
 
@@ -91,9 +98,12 @@ public class Trip {
 		driver.findElement(By.id("Editbox13_show")).click();
 		driver.findElement(By.xpath("//div[@id='toautoFill']//span[contains(text(),'" + dc + "')]")).click();
 
+		//get nextFriday
+		String nextFriday = nextFriday().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")).toString();
+		
 		//Selection of date- 25/09/2020
 		driver.findElement(By.id("ddate")).click();
-		driver.findElement(By.id("frth_5_25/09/2020")).click();
+		driver.findElement(By.id("snd_5_"+nextFriday)).click();
 
 		driver.findElement(By.id("search")).click();
 

@@ -7,6 +7,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.Scanner;
 
 public class DriverSetup {
+	static String workspace = System.getProperty("user.dir");
 
 
 	public static WebDriver getWebDriver() {
@@ -15,13 +16,13 @@ public class DriverSetup {
 		System.out.println("2. Firefox");
 		System.out.println("Enter the choice: ");
 		Scanner sc = new Scanner(System.in);
-		int choice = sc.nextInt();
+		int choice = 1;
 		WebDriver driver = null;
 		switch (choice) {
 			case 1:
 				//Setup for chrome browser
 				WebDriver driver1;
-				System.setProperty("webdriver.chrome.driver", "C:\\Users\\ashekha5\\Documents\\seleniumAutomation\\resources\\drivers\\chromedriver_win32\\chromedriver.exe");
+				System.setProperty("webdriver.chrome.driver", workspace+"\\resources\\drivers\\chromedriver_win32\\chromedriver.exe");
 				driver1 = new ChromeDriver();
 				driver = driver1;
 				break;
@@ -29,7 +30,7 @@ public class DriverSetup {
 			case 2:
 				//Setup for firefox browser
 				WebDriver driver2;
-				System.setProperty("webdriver.gecko.driver", "C:\\Users\\ashekha5\\Documents\\seleniumAutomation\\resources\\drivers\\geckodriver-v0.27.0-win64\\geckodriver.exe");
+				System.setProperty("webdriver.gecko.driver", workspace+"\\resources\\drivers\\geckodriver-v0.27.0-win64\\geckodriver.exe");
 				driver2 = new FirefoxDriver();
 				driver = driver2;
 				break;
